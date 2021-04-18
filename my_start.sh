@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eu
 
-export DB_HOST=localhost
+export DB_HOST=127.0.0.1
 
 if [ ! -d /var/lib/mysql/seafile_db ]
 then
