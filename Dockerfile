@@ -15,7 +15,7 @@ COPY services/mysqld.sh /etc/service/mysqld/run
 COPY services/memcached.sh /etc/service/memcached/run
 RUN chmod 755 /etc/service/*/run
 
-COPY my_start.sh /sbin/my_start.sh
-RUN chmod 755 /sbin/my_start.sh
+COPY scripts/ /scripts/
+RUN chmod 755 /scripts/*.sh
 
-CMD ["/sbin/my_init", "--", "/sbin/my_start.sh"]
+CMD ["/sbin/my_init", "--", "/scripts/my_start.sh"]

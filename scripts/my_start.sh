@@ -3,6 +3,7 @@ set -eu
 
 export DB_HOST=127.0.0.1
 
+# Initialize DB if needed
 if [ ! -d /var/lib/mysql/mysql ]
 then
     sv stop mysqld
@@ -11,6 +12,9 @@ then
     sv start mysqld
 fi
 
+timeout 60 /scripts/wait_mysql.sh
+
+# Initialize root PW if needed
 if [ ! -f /var/lib/mysql/dotmy.cnf ]
 then
     if [ -z "${DB_ROOT_PASSWD:-}" ]
