@@ -8,6 +8,7 @@ if [ ! -d /var/lib/mysql/mysql ]
 then
     sv stop mysqld
     chown -R mysql:mysql /var/lib/mysql
+    chmod 700 /var/lib/mysql
     mysql_install_db --user=mysql --auth-root-authentication-method=normal --datadir=/var/lib/mysql
     sv start mysqld
 fi
