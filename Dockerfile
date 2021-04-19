@@ -10,10 +10,11 @@ RUN rm -rf /var/lib/mysql/*
 RUN ln -s /var/lib/mysql/dotmy.cnf /root/.my.cnf
 VOLUME "/var/lib/mysql"
 
-RUN mkdir -p /etc/service/mysqld /etc/service/memcached
+RUN mkdir -p /etc/service/mysqld /etc/service/mysqld/control /etc/service/memcached
 COPY services/mysqld.sh /etc/service/mysqld/run
+COPY services/mysqld_stop.sh /etc/service/mysqld/control/t
 COPY services/memcached.sh /etc/service/memcached/run
-RUN chmod 755 /etc/service/*/run
+RUN chmod 755 /etc/service/*/run /etc/service/*/control/*
 
 COPY scripts/ /scripts/
 RUN chmod 755 /scripts/*.sh

@@ -24,7 +24,7 @@ then
         export DB_ROOT_PASSWD="$(dd status=none if=/dev/urandom of=/dev/stdout bs=48 count=1 | base64)"
     fi
     mysql mysql -B -e "UPDATE user SET password = PASSWORD('$DB_ROOT_PASSWD') WHERE User = 'root';"
-    echo '[mysql]' > /var/lib/mysql/dotmy.cnf
+    echo '[client]' > /var/lib/mysql/dotmy.cnf
     chmod 600 /var/lib/mysql/dotmy.cnf
     echo "password=$DB_ROOT_PASSWD" >> /var/lib/mysql/dotmy.cnf
     mysqladmin flush-privileges
