@@ -42,5 +42,4 @@ mkdir -p /shared/seafile/logs /shared/seafile/seahub-data/custom
 chown seafile:seafile /shared/seafile/logs /shared/seafile/seahub-data /shared/seafile/seahub-data/custom
 
 echo 'Giving control to /scripts/start.py'
-/scripts/start.py || true
-sleep 3600
+/scripts/start.py
