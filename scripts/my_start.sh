@@ -5,6 +5,12 @@ export DB_HOST=127.0.0.1
 export DB_MY_CONF='/var/lib/mysql/dotmy.cnf'
 export DB_MY_CONF_ARG="--defaults-file=$DB_MY_CONF"
 
+if [ ! -f "$DB_MY_CONF" ]
+then
+    echo '[client]' > "$DB_MY_CONF"
+    chmod 600 "$DB_MY_CONF"
+fi
+
 # Initialize DB if needed
 if [ ! -d /var/lib/mysql/mysql ]
 then
@@ -26,13 +32,15 @@ then
         export DB_ROOT_PASSWD="$(dd status=none if=/dev/urandom of=/dev/stdout bs=48 count=1 | base64)"
     fi
     mysql mysql -B -e "UPDATE user SET password = PASSWORD('$DB_ROOT_PASSWD') WHERE User = 'root';"
-    echo '[client]' > "$DB_MY_CONF"
-    chmod 600 "$DB_MY_CONF"
     echo "password=$DB_ROOT_PASSWD" >> "$DB_MY_CONF"
     mysqladmin "$DB_MY_CONF_ARG" flush-privileges
 fi
 
 export DB_ROOT_PASSWD="$(grep -Po '(?<=password=).+' /root/.my.cnf)"
 
+mkdir -p /shared/seafile/logs /shared/seafile/seahub-data/custom
+chown seafile:seafile /shared/seafile/logs /shared/seafile/seahub-data /shared/seafile/seahub-data/custom
+
 echo 'Giving control to /scripts/start.py'
-exec /scripts/start.py
+/scripts/start.py || true
+sleep 3600
