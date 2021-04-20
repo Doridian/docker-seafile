@@ -10,7 +10,7 @@
 
 ## Common configuration
 
-# Environment variables
+### Environment variables
 
 - `SEAFILE_ADMIN_EMAIL` - E-Mail address of the Seafile admin account
 
@@ -24,13 +24,13 @@
 
 - `DDNS_URL_IPV6` - URL to curl every 5 minutes over IPv6 only (to update DynDNS records)
 
-# Volumes (make sure to mount those to host directories)
+### Volumes (make sure to mount those to host directories)
 
 - `/shared` - Contains all seafile data and system logs
 
 - `/var/lib/mysql` - Contains the MySQL data
 
-# Ports
+### Ports
 
 - `80` - HTTP (required even when running in HTTP mode!)
 
