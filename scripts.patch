@@ -1,0 +1,44 @@
+diff -rupN a/bootstrap.py b/bootstrap.py
+--- a/bootstrap.py      2021-04-21 23:05:39.720000000 +0000
++++ b/bootstrap.py      2021-04-21 23:05:45.390000000 +0000
+@@ -124,7 +124,7 @@ def init_seafile_server():
+         'SERVER_IP': get_conf('SEAFILE_SERVER_HOSTNAME', 'seafile.example.com'),
+         'MYSQL_USER': 'seafile',
+         'MYSQL_USER_PASSWD': str(uuid.uuid4()),
+-        'MYSQL_USER_HOST': '%.%.%.%',
++        'MYSQL_USER_HOST': '127.0.0.1',
+         'MYSQL_HOST': get_conf('DB_HOST','127.0.0.1'),
+         # Default MariaDB root user has empty password and can only connect from localhost.
+         'MYSQL_ROOT_PASSWD': get_conf('DB_ROOT_PASSWD', ''),
+@@ -142,7 +142,7 @@ def init_seafile_server():
+         .format(get_script('setup-seafile-mysql.py')))
+
+     setup_script = get_script('setup-seafile-mysql.sh')
+-    call('{} auto -n seafile'.format(setup_script), env=env)
++    call('sudo -E -H -u seafile {} auto -n seafile'.format(setup_script), env=env)
+
+     domain = get_conf('SEAFILE_SERVER_HOSTNAME', 'seafile.example.com')
+     proto = 'https' if is_https() else 'http'
+@@ -151,7 +151,7 @@ def init_seafile_server():
+         fp.write("""CACHES = {
+     'default': {
+         'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
+-        'LOCATION': 'memcached:11211',
++        'LOCATION': '127.0.0.1:11211',
+     },
+     'locmem': {
+         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+diff -rupN a/start.py b/start.py
+--- a/start.py  2021-04-21 23:05:39.720000000 +0000
++++ b/start.py  2021-04-21 23:05:45.390000000 +0000
+@@ -68,8 +68,8 @@ def main():
+
+
+     try:
+-        call('{} start'.format(get_script('seafile.sh')))
+-        call('{} start'.format(get_script('seahub.sh')))
++        call('sudo -E -H -u seafile {} start'.format(get_script('seafile.sh')))
++        call('sudo -E -H -u seafile {} start'.format(get_script('seahub.sh')))
+     finally:
+         if exists(password_file):
+             os.unlink(password_file)
