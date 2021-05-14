@@ -60,11 +60,11 @@ fi
 
 if [ ! -z "${DDNS_URL_IPV4:-}" ]
 then
-    /usr/bin/curl -4 "$DDNS_URL_IPV4"
+    /usr/bin/curl -4 "$DDNS_URL_IPV4" || true
 fi
 if [ ! -z "${DDNS_URL_IPV6:-}" ]
 then
-    /usr/bin/curl -6 "$DDNS_URL_IPV6"
+    /usr/bin/curl -6 "$DDNS_URL_IPV6" || true
 fi
 
 echo 'Giving control to /scripts/start.py'
