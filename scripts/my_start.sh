@@ -48,22 +48,22 @@ then
     echo >> /etc/crontab
     if [ ! -z "${DDNS_URL_IPV4:-}" ]
     then
-        echo "*/5 * * * *  nobody /usr/bin/curl -4 '$DDNS_URL_IPV4'" >> /etc/crontab
+        echo "*/5 * * * *  nobody /usr/bin/curl -m 60 -4 '$DDNS_URL_IPV4'" >> /etc/crontab
     fi
     if [ ! -z "${DDNS_URL_IPV6:-}" ]
     then
-        echo "*/5 * * * *  nobody /usr/bin/curl -6 '$DDNS_URL_IPV6'" >> /etc/crontab
+        echo "*/5 * * * *  nobody /usr/bin/curl -m 60 -6 '$DDNS_URL_IPV6'" >> /etc/crontab
     fi
     touch /root/ddns_configured
 fi
 
 if [ ! -z "${DDNS_URL_IPV4:-}" ]
 then
-    /usr/bin/curl -4 "$DDNS_URL_IPV4" || true
+    /usr/bin/curl -m 5 -4 "$DDNS_URL_IPV4" || true
 fi
 if [ ! -z "${DDNS_URL_IPV6:-}" ]
 then
-    /usr/bin/curl -6 "$DDNS_URL_IPV6" || true
+    /usr/bin/curl -m 5 -6 "$DDNS_URL_IPV6" || true
 fi
 
 echo 'Giving control to /scripts/start.py'
