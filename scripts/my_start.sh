@@ -32,6 +32,7 @@ then
         export DB_ROOT_PASSWD="$(dd status=none if=/dev/urandom of=/dev/stdout bs=48 count=1 | base64)"
     fi
     mysql "$DB_MY_CONF_ARG" mysql -B -e "UPDATE user SET password = PASSWORD('$DB_ROOT_PASSWD') WHERE User = 'root';"
+    mysqladmin flush-privileges || true
     echo "password=$DB_ROOT_PASSWD" >> "$DB_MY_CONF"
     mysqladmin "$DB_MY_CONF_ARG" flush-privileges
 fi
@@ -48,12 +49,10 @@ then
     if [ ! -z "${DDNS_URL_IPV4:-}" ]
     then
         echo "*/5 * * * *  nobody /usr/bin/curl -4 '$DDNS_URL_IPV4'" >> /etc/crontab
-        /usr/bin/curl -4 "$DDNS_URL_IPV4"
     fi
     if [ ! -z "${DDNS_URL_IPV6:-}" ]
     then
         echo "*/5 * * * *  nobody /usr/bin/curl -6 '$DDNS_URL_IPV6'" >> /etc/crontab
-        /usr/bin/curl -6 "$DDNS_URL_IPV6"
     fi
     touch /root/ddns_configured
 fi
