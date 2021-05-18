@@ -3,7 +3,7 @@ FROM seafileltd/seafile-mc:latest
 RUN apt-get update && apt-get install -y wget mariadb-server memcached sudo curl && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Prepare Seafile perms to not have to run as root
-RUN groupadd -g 1001 seafile && useradd -u 1001 -g 1001 seafile
+RUN groupadd -g 10001 seafile && useradd -u 10001 -g 10001 seafile
 RUN chown -R seafile:seafile /opt/seafile
 
 # Prepare MySQL config
