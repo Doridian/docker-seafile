@@ -1,6 +1,6 @@
 ## About this image
 
-- On Docker Hub: https://hub.docker.com/repository/docker/doridian/seafile
+- On GitHub Container Registry: https://github.com/Doridian/docker-seafile/pkgs/container/docker-seafile%2Fseafile
 
 - Based upon the vanilla seafile-docker image, seen on https://github.com/haiwen/seafile-docker or https://hub.docker.com/r/seafileltd/seafile-mc
 
